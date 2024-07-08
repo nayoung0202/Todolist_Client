@@ -26,14 +26,16 @@ export default ({
     addTodo() {
       if (this.newTodoItem.trim() !== '') {
 
-        const memberId = this.$cookies.get('member_id'); // VueCookies를 사용하여 쿠키를 가져옵니다.
+        const memberId = this.$cookies.get('memberId'); // VueCookies를 사용하여 쿠키를 가져옵니다.
         const nickname = this.$cookies.get('nickname');
-        console.log(this.$cookies.get('member_id'))
+        console.log(this.$cookies.get('memberId'))
 
-        this.axios.post(`/api/todos/${memberId}`, {
+        console.log(this.newTodoItem);
+
+
+        this.axios.post(`/api/todos`, {
           memberId: memberId,
-          nickname: nickname,
-          content: this.newTodoItem.trim()
+          content: this.newTodoItem
         })
         .then((res) => {
           console.log(res.status);

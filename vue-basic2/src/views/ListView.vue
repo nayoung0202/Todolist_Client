@@ -36,6 +36,9 @@ export default {
         clearAll(){
             localStorage.clear();
             this.todoItems = [];
+        },
+        removeTodo(index){
+          
         }
 
     },  
