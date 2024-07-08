@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <h2 class="name">TODO LIST</h2>
+    <img alt="Vue logo" src="../assets/Todolist_MainImage.png">
     <TodoList msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
@@ -16,3 +17,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.name{
+  margin-top: 10%;
+  margin-bottom: 0%;
+  font-size: 400%;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div class="inputBox shadow">
-    <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
-    <button class="addButton" @click="addTodo">
+    <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo()">
+    <button class="addButton" @click="addTodo()">
       <i class="bi bi-file-plus"></i>
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 13 16">
         <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5z"/>
@@ -12,24 +12,47 @@
 </template>
 
 <script>
-export default {
+import { createApp } from 'vue';
+
+// import { contains } from 'bootstrap-vue-3/dist/utils';
+
+export default ({
   data() {
     return {
       newTodoItem: ''
-    }
+    };
   },
   methods: {
     addTodo() {
       if (this.newTodoItem.trim() !== '') {
-        this.$emit('addTodo', this.newTodoItem.trim());
-        this.clearInputbox();
+
+        const memberId = this.$cookies.get('member_id'); // VueCookies를 사용하여 쿠키를 가져옵니다.
+        const nickname = this.$cookies.get('nickname');
+        console.log(this.$cookies.get('member_id'))
+
+        this.axios.post(`/api/todos/${memberId}`, {
+          memberId: memberId,
+          nickname: nickname,
+          content: this.newTodoItem.trim()
+        })
+        .then((res) => {
+          console.log(res.status);
+          console.log(res.data);
+          this.clearInputbox();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
       }
     },
     clearInputbox() {
       this.newTodoItem = '';
     }
   }
-};
+});
 </script>
 
 <style scoped>
