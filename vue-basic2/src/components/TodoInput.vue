@@ -12,48 +12,47 @@
 </template>
 
 <script>
-export default {
+import { createApp } from 'vue';
+
+// import { contains } from 'bootstrap-vue-3/dist/utils';
+
+export default ({
   data() {
     return {
       newTodoItem: ''
-    }
+    };
   },
   methods: {
-    addTodo(newTodoItem) {
+    addTodo() {
       if (this.newTodoItem.trim() !== '') {
-        this.$emit('addTodo', this.newTodoItem.trim());
-        console.log("등록하기!");
 
-        // let saveData = {};
-        // saveData.memberId = '1000';
-        // saveData.name = 'user2';
-        // saveData.content = this.newTodoItem;
+        const memberId = this.$cookies.get('member_id'); // VueCookies를 사용하여 쿠키를 가져옵니다.
+        const nickname = this.$cookies.get('nickname');
+        console.log(this.$cookies.get('member_id'))
 
-
-        this.axios.post(`/api/todos`,  {memberId : '1000', name : "나옹", content: "흥청망청 놀기!!"
-})
-          .then((res) => {
-            console.log(res.status);
-            console.log(res.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {
-            console.log("항상 마지막에 실행");
-          });
-          
-        
-
-        this.clearInputbox();
+        this.axios.post(`/api/todos/${memberId}`, {
+          memberId: memberId,
+          nickname: nickname,
+          content: this.newTodoItem.trim()
+        })
+        .then((res) => {
+          console.log(res.status);
+          console.log(res.data);
+          this.clearInputbox();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
       }
-      
     },
     clearInputbox() {
       this.newTodoItem = '';
     }
   }
-};
+});
 </script>
 
 <style scoped>
