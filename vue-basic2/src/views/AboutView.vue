@@ -2,10 +2,6 @@
 	<div class="container">
 		<form @submit.prevent="submitForm">
 			<div>
-				<label for="nickname">닉네임</label>
-				<input type="text" id="nickname" v-model="nickname" />
-			</div>
-			<div>
 				<label for="email">아이디</label>
 				<input type="text" id="email" v-model="email" />
 			</div>
@@ -26,30 +22,31 @@ export default {
 	name: 'Member_ID',
 	data() {
 		return {
-			nickname: '', // 닉네임 추가
 			email: '',
 			password: '',
 		};
 	},
 	methods: {
 		submitForm() {
-			// 아이디, 비밀번호, 닉네임이 모두 입력되었는지 확인
-			if (!this.email || !this.password || !this.nickname) {
-				alert('아이디, 비밀번호, 닉네임을 모두 입력하세요.');
+			// 아이디와 비밀번호가 모두 입력되었는지 확인
+			if (!this.email || !this.password) {
+				alert('아이디와 비밀번호를 모두 입력하세요.');
 				return;
 			}
 
 			// 로그인 또는 회원가입 로직 처리
-			console.log(this.email, this.password, this.nickname);
-			const url = 'https://jsonplaceholder.typicode.com/users';
+			console.log(this.email, this.password);
+			// const url = 'https://jsonplaceholder.typicode.com/users';
 			const data = {
 				username: this.email,
 				password: this.password,
-				nickname: this.nickname, // 닉네임 추가
 			};
-			axios
-				.post(url, data)
+			axios.post(`/api/login`, {
+				email: this.email,
+				passwd: this.password
+			})
 				.then((response) => {
+					this.$router.push("/list")
 					// 로그인 성공 시
 					console.log(response);
 					alert('로그인에 성공하였습니다.');

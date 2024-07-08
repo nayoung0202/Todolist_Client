@@ -30,7 +30,7 @@
 						비밀번호는 필수 입력 항목입니다.
 					</div>
 					<div v-if="!passwordValidFlag">
-						비밀번호는 대문자를 포함하여 최소 8자 이상, 숫자, 특수문자를 포함해야 합니다.
+						비밀번호는 최소 8자 이상, 숫자, 특수문자를 포함해야 합니다.
 					</div>
 				</td>
 			</tr>
@@ -71,7 +71,7 @@ export default {
 	},
 	methods: {
 		passwordValid() {
-			const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+			const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/;
 			if (this.signup.password === '') {
 				this.passwordValidFlag = false;
 			} else if (regex.test(this.signup.password)) {
@@ -91,14 +91,22 @@ export default {
 		},
 		register() {
 			if (this.emailValid && this.passwordValidFlag && this.passwordCheckFlag && this.signup.nickname !== '') {
-				const url = 'https://jsonplaceholder.typicode.com/posts'; // 가상의 API URL
+				// const url = 'https://jsonplaceholder.typicode.com/posts'; // 가상의 API URL
 				const data = {
 					nickname: this.signup.nickname,
 					email: this.signup.email,
 					password: this.signup.password,
 				};
-				axios.post(url, data)
-					.then(response => {
+				axios.post(`/api/signup`,{
+					nickname: this.signup.nickname,
+					email: this.signup.email,
+					passwd: this.signup.password,
+					check: this.signup.password
+				}
+					
+
+				).then(response => {
+					this.$router.push("/about")
 						console.log('회원 가입 성공:', response.data);
 						alert('회원 가입이 완료되었습니다.');
 						this.$emit('user-signed-up', this.signup.nickname); // 이벤트를 발생시켜 userNickname을 전달
