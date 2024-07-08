@@ -20,8 +20,13 @@ const routes = [
     path: '/list',
     name: 'list',
     component: () => import("@/views/ListView.vue")
-  }
+  },
 
+  {
+    path: '/todosignup',
+    name: 'TodoSignup',
+    component: () => import(/* webpackChunkName: "todosignup" */ '../components/TodoSignup.vue'),
+  }
 
 ]
 

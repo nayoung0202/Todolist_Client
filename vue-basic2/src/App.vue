@@ -1,19 +1,55 @@
 <template>
-  <nav>
-    <router-link to="/">Main</router-link> 
-  </nav>
-  <nav class="navbar navbar-light bg-light">
-  <form class="container-fluid justify-content-start">
-    <router-link class="btn btn-outline-primary mx-2" to="about">로그인</router-link>
-    <router-link class="btn btn-outline-success mx-2" to="list">list</router-link>
-    <button class="btn btn-outline-success mx-2" type="button">문의</button>
-    <div class="navbar-text ml-auto">
-          환영합니다람쥐
+    <nav>
+      <router-link to="/">Main</router-link> 
+    </nav>
+    <nav class="navbar navbar-light bg-light" v-if="!showSignup">
+      <form class="container-fluid justify-content-start">
+        <router-link class="btn btn-outline-primary mx-2" to="about">로그인</router-link>
+        <router-link class="btn btn-outline-success mx-2" to="list">list</router-link>
+        <div class="navbar-text ml-auto">
+          {{ greetingMessage }}
+        </div>
+      </form>
+    </nav>
+    <div id="app">
+    <!-- 메인 화면에서는 TodoSignup를 렌더링하지 않음 -->
+    <router-view v-if="!showSignup" />
+    <!-- TodoSignup 컴포넌트는 회원가입 페이지에서만 렌더링 -->
+    <TodoSignup v-if="showSignup" @user-signed-up="updateUserNickname" />
+    <nav v-if="!showSignup"></nav>
   </div>
-  </form>
-</nav>
-  <router-view/>
 </template>
+
+<script>
+import TodoSignup from './components/TodoSignup.vue';
+
+export default {
+  components: {
+    TodoSignup,
+  },
+  data() {
+    return {
+      // 사용자의 닉네임을 데이터로 정의합니다.
+      userNickname: '',
+      // 회원가입 페이지를 보여줄지 여부를 결정하는 데이터
+      showSignup: false,
+    };
+  },
+  methods: {
+    updateUserNickname(nickname) {
+      this.userNickname = nickname; // TodoSignup.vue로부터 받은 닉네임을 업데이트
+      // 회원가입 후 메인 화면으로 돌아갑니다.
+      this.showSignup = true;
+    },
+  },
+  computed: {
+    // 환영 메시지를 동적으로 생성합니다.
+    greetingMessage() {
+      return `${this.userNickname} 님 환영합니다람쥐!`;
+    }
+  },
+};
+</script>
 
 <style>
 #app {
@@ -24,11 +60,9 @@
   color: #2c3e50;
 }
 
-
 nav {
   padding: 30px;
 }
-
 
 nav a {
   font-weight: bold;
@@ -52,6 +86,4 @@ nav a.router-link-exact-active {
   background-color: #28a745; /* Bootstrap success color */
   color: #fff; /* White text */
 }
-
 </style>
-

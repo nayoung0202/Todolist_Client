@@ -32,6 +32,7 @@ export default {
             localStorage.setItem(todoItem, todoItem);
             this.todoItems.push(todoItem);
         },
+
         clearAll(){
             localStorage.clear();
             this.todoItems = [];
