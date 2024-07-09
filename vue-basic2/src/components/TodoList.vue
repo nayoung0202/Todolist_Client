@@ -17,6 +17,7 @@
 
 <script>
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default {
   data() {
@@ -31,6 +32,35 @@ export default {
     }
   },
   methods: {
+
+    getCookie(name) {
+      const cookies = Cookies.get('cookies');
+
+      let memberId = '';
+      let nickName = '';
+
+      if (cookies != null && cookies != undefined && cookies != '') {
+        if (name == 'nickName') {
+          nickName = cookies.split('_')[0]
+          return nickName;
+
+        } else if (name = 'memberId') {
+          memberId = cookies.split('_')[1]
+          return memberId;
+        }
+      } else {
+        return;
+      }
+    },
+
+    isEmpty(value) {
+      if (value === '' || value === undefined || value === null) {
+        return true;
+      } else {
+        return false;
+      }
+    }, 
+    
     // 삭제 상태를 토글하는 메서드
     toggleDeleteStatus(item) {
       item.markedForDelete = !item.markedForDelete;
@@ -38,8 +68,8 @@ export default {
 
     // 삭제
     removeTodo(todoItem, index) {
-      console.log(todoItem.id); // 고유 식별자 (예: id)
-      axios.delete(`/api/todos/${todoItem.id}`)
+      console.log(todoItem.contentId); // 고유 식별자 (예: id)
+      axios.delete(`/api/todos/${todoItem.contentId}`)
         .then(response => {
           console.log('Todo deleted:', response.data);
           // 성공적으로 삭제되면 화면에서도 삭제
@@ -52,7 +82,12 @@ export default {
 
     // 조회
     fetchTodoItems() {
-      const memberId = this.$cookies.get('memberId');
+
+      // 쿠키 조회
+      const memberId = this.getCookie('memberId');
+      if (this.isEmpty(memberId)) {
+        return;
+      }
 
       axios.get(`/api/todos/${memberId}`)
         .then(response => {

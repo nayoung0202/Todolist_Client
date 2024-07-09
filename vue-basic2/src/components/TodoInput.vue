@@ -26,8 +26,9 @@ export default ({
     addTodo() {
       if (this.newTodoItem.trim() !== '') {
 
-        const memberId = this.$cookies.get('memberId'); // VueCookies를 사용하여 쿠키를 가져옵니다.
-        const nickname = this.$cookies.get('nickname');
+        const cookies = this.$cookies.get('cookies'); 
+        const memberId = cookies.split('_')[1]; // VueCookies를 사용하여 쿠키를 가져옵니다.
+        const nickname = cookies.split('_')[0];
         console.log(this.$cookies.get('memberId'))
 
         console.log(this.newTodoItem);

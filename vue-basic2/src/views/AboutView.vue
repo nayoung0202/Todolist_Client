@@ -17,6 +17,7 @@
 
 <script>
 import axios from 'axios';
+import App from '@/App.vue';
 
 export default {
 	name: 'Member_ID',
@@ -46,10 +47,18 @@ export default {
 				passwd: this.password
 			})
 				.then((response) => {
-					this.$router.push("/list")
 					// 로그인 성공 시
-					console.log(response);
-					alert('로그인에 성공하였습니다.');
+					console.log(response.data);
+					if (response.data == 'fail') {
+						alert('로그인에 실패하였습니다.');
+						return;
+					} else if(response.data == 'success') {
+						
+						alert('로그인에 성공하였습니다.');
+						//const nickname = Cookies.get('nickname');
+						this.$router.push("/list")
+						return;
+					}
 					// 여기서 추가적인 로직을 수행할 수 있습니다 (예: 로그인 후의 페이지 이동 등)
 				})
 				.catch((error) => {

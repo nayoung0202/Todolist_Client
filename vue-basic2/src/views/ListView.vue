@@ -12,7 +12,7 @@ import TodoHeader from '@/components/TodoHeader.vue'
 import TodoInput from '@/components/TodoInput.vue'
 import TodoList from '@/components/TodoList.vue'
 import TodoFooter from '@/components/TodoFooter.vue'
-
+import App from '@/App.vue'
 
 export default {
   data(){
@@ -48,7 +48,10 @@ export default {
     TodoHeader,
     TodoInput,
     TodoList,
-    TodoFooter,
+    TodoFooter
+  },
+  mounted () {
+    this.$router.path;
   }
 }
 </script>
