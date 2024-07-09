@@ -37,10 +37,10 @@ export default {
 			// 로그인 또는 회원가입 로직 처리
 			console.log(this.email, this.password);
 			// const url = 'https://jsonplaceholder.typicode.com/users';
-			const data = {
-				username: this.email,
-				password: this.password,
-			};
+			// const data = {
+			// 	username: this.email,
+			// 	password: this.password,
+			// };
 			axios.post(`/api/login`, {
 				email: this.email,
 				passwd: this.password
