@@ -3,7 +3,10 @@
     <ul>
       <!-- 역순으로 정렬된 todoItems를 순회 -->
       <li v-for="(item, index) in reversedTodoItems" :key="item.id" :class="{ 'markedForDelete': item.markedForDelete }" @contextmenu.prevent="toggleDeleteStatus(item)">
-        <span :class="{ 'deleted': item.markedForDelete }">{{ item.content }}</span>
+        <span :class="{ 'deleted': item.markedForDelete }">
+          <!--{{ item.content }}-->
+          <div v-html="getTodoData(index)"></div>
+        </span>
         <button class="removeBtn" @click="removeTodo(item, index)">
           <i class="bi bi-trash3"></i>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
@@ -22,7 +25,8 @@ import Cookies from 'js-cookie';
 export default {
   data() {
     return {
-      todoItems: []
+      todoItems: [],
+      htmlCode: ""
     };
   },
   computed: {
@@ -97,6 +101,15 @@ export default {
         .catch(error => {
           console.error('Error fetching todo items:', error);
         });
+    },
+
+    //xss
+    getTodoData(index) {
+      // <img src=x onerror=alert('Cross Site Scripting') width='0' height='0'>
+      // <img src=x onerror=alert('당신의_쿠키_정보를_빼돌렸습니다.') width='0' height='0'>
+      //if (this.reversedTodoItems[index].content != '')
+      return `${this.reversedTodoItems[index].content}`;
+      //return '';
     }
   },
 

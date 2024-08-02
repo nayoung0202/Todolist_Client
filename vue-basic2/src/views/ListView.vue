@@ -4,7 +4,7 @@
     <TodoInput v-on:addTodo="addTodo"></TodoInput>
     <TodoList v-bind:propsdata="todoItems"></TodoList>
     <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
-  </div>
+  </div>  
 </template>
 
 <script>

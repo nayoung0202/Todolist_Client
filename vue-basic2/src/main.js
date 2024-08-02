@@ -24,6 +24,7 @@ app.use(VueCookies);
 app.config.globalProperties.$cookies = VueCookies;
 
 // Cookie 설정
+// cookie 7일동안 유지
 app.config.globalProperties.$cookies.config("7d");
 
 // 마운트
